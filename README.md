@@ -9,6 +9,14 @@
 
 ---
 
+## 📸 Screenshots
+
+| Main Menu | Game Screen | Button Flash |
+|:---------:|:-----------:|:------------:|
+| ![Main menu — choose Classic or Random mode](screenshots/menu.png) | ![Game screen — 4 coloured buttons ready to play](screenshots/game.png) | ![Yellow button flashing during round 4](screenshots/gameplay.png) |
+
+---
+
 ## 🎮 Gameplay
 
 Coloured buttons light up one by one — repeat the sequence in the same order. Each successful round adds another colour. How far can you go?

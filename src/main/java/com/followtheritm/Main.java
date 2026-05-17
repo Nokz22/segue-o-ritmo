@@ -50,6 +50,7 @@ public class Main {
         frame.getControlPanel().setOnFullScreenToggle(frame::toggleFullScreen);
 
         // Start full-screen — ideal for touch-screen kiosk use
-        frame.toggleFullScreen();
+        if (Boolean.getBoolean("windowed")) frame.setVisible(true);
+        else frame.toggleFullScreen();
     }
 }
