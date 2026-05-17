@@ -44,3 +44,4 @@ bin/
 dist/standalone/
 dist/macos-app/
 dist/SegueoRitmo.app/
+CODE_GUIDE.md
