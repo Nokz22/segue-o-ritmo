@@ -17,16 +17,18 @@ Two game modes are available from the main menu:
 
 | Mode | Description |
 |------|-------------|
-| **Clássico** | The sequence grows by one colour each round (classic Simon Says) |
-| **Aleatório** | A brand-new random sequence is generated every round — more challenging |
+| **Classic** | The sequence grows by one colour each round (classic Simon Says) |
+| **Random** | A brand-new random sequence is generated every round — more challenging |
 
 Three difficulty levels with dramatically different speeds make the game accessible at any pace:
 
 | Level | Interval | For whom |
 |-------|----------|----------|
-| 🐢 **Lento** | 2 500 ms | Users who need extra time |
+| 🐢 **Slow** | 2 500 ms | Users who need extra time |
 | 🚶 **Normal** | 950 ms | Standard pace |
-| 🐇 **Rápido** | 450 ms | Fast-reflex challenge |
+| 🐇 **Fast** | 450 ms | Fast-reflex challenge |
+
+> The in-game UI is displayed in European Portuguese (pt-PT) as the game targets Portuguese-speaking users.
 
 ---
 
@@ -38,7 +40,7 @@ Three difficulty levels with dramatically different speeds make the game accessi
 - **High-contrast UI** — radial-gradient flash animations, bright vs near-black button states, white border hover
 - **Programmatic audio** — pure sine-wave tones generated at runtime with `javax.sound.sampled`, no external audio files
 - **Round tracker & personal best** — star display updates after every successful round
-- **Accessible design** — traffic-light colour coding, difficulty dots (●●●), large touch targets, emoji + text split for reliable font rendering
+- **Accessible design** — traffic-light colour coding, difficulty dots (●●●), large touch targets, emoji + text rendered separately for reliable font metrics
 - **European Portuguese UI** — all player-visible strings centralised in `GameConfig`
 
 ---
@@ -59,7 +61,7 @@ java -jar dist/windows/simon-says.jar
 
 Double-click **`dist/macos/Segue o Ritmo.app`**
 
-> First run: macOS may warn "developer cannot be verified" — right-click the app → **Open** → **Open** to bypass Gatekeeper once.
+> First run: macOS may show a "developer cannot be verified" warning — right-click the app → **Open** → **Open** to bypass Gatekeeper once.
 
 ### Windows
 
@@ -71,7 +73,7 @@ Double-click **`dist/windows/Segue o Ritmo.bat`**
 
 ```bash
 # 1. Clone
-git clone https://github.com/<your-username>/segue-o-ritmo.git
+git clone https://github.com/Nokz22/segue-o-ritmo.git
 cd segue-o-ritmo
 
 # 2. Build fat JAR (runs tests automatically)
@@ -91,12 +93,12 @@ mvn test
 
 ## 🏗️ Architecture
 
-Strict **MVC** with four supporting patterns:
+Strict **MVC** with four supporting design patterns:
 
 ```
 com.followtheritm
 ├── Main.java                  Bootstrap & wiring
-├── config/   GameConfig       Singleton — all constants & pt-PT strings
+├── config/   GameConfig       Singleton — all constants & pt-PT UI strings
 ├── model/    GameSession       Mutable state machine (IDLE → SHOWING → AWAITING_INPUT → …)
 │             GameSequence      Immutable record (List.copyOf)
 │             PlayerInput       Immutable record with withAdded()
@@ -122,8 +124,8 @@ com.followtheritm
 
 - All Swing mutations use `javax.swing.Timer` — never `Thread.sleep` on the EDT
 - `JLayeredPane.doLayout()` override replaces `ComponentListener` to avoid zero-size children on first paint
-- `GameOverOverlay.dismiss()` avoids infinite recursion with deprecated `Component.hide()`
-- Emoji and plain text rendered separately because `FontMetrics.stringWidth()` is unreliable for emoji glyphs
+- `GameOverOverlay.dismiss()` avoids infinite recursion with the deprecated `Component.hide()`
+- Emoji and plain text are rendered separately because `FontMetrics.stringWidth()` is unreliable for emoji glyphs
 
 ---
 
@@ -135,7 +137,7 @@ This game was designed for use on **workplace touch-screen computers** by users 
 - **Dramatic state contrast** — active buttons use a bright radial-gradient flash; idle buttons are near-black; hover adds a 5 px white border
 - **Speed gaps are intentional** — Slow (2 500 ms) vs Normal (950 ms) vs Fast (450 ms) ensures users perceive a clearly different pace rather than a subtle change
 - **No reading required** — mode cards use colour + icon; difficulty buttons use colour + dots (●); feedback overlay uses large ✓ / ✗ symbols
-- **Touch-first input** — `mousePressed` fires immediately on finger-down, unlike `mouseClicked` which requires a full tap-release cycle
+- **Touch-first input** — `mousePressed` fires immediately on finger-down, unlike `mouseClicked` which requires a full tap-and-release cycle
 
 ---
 
