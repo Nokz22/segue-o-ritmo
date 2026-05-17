@@ -1,0 +1,27 @@
+#!/bin/bash
+# Launcher for Segue o Ritmo — macOS .app bundle
+# Requires Java 17+ installed on the system.
+
+# Resolve the JAR path relative to this script
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+JAR="$SCRIPT_DIR/../app/simon-says.jar"
+
+if [ ! -f "$JAR" ]; then
+    osascript -e 'display alert "Segue o Ritmo" message "Ficheiro simon-says.jar não encontrado dentro da aplicação." as critical'
+    exit 1
+fi
+
+# Verify Java 17+ is available
+JAVA_CMD="java"
+if ! command -v java &>/dev/null; then
+    osascript -e 'display alert "Java não encontrado" message "Por favor instala o Java 17 ou superior em https://adoptium.net/ e tenta de novo." as critical'
+    exit 1
+fi
+
+# Launch — suppress the dock bounce by running detached
+exec "$JAVA_CMD" \
+    -Xmx512m \
+    -Dfile.encoding=UTF-8 \
+    -Dapple.awt.application.name="Segue o Ritmo" \
+    -Dapple.laf.useScreenMenuBar=false \
+    -jar "$JAR"
